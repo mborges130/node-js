@@ -1,46 +1,28 @@
-const fs = require('fs');
-const trataErros = require('./erros/erros.js');
-
-const caminhoArquivo = process.argv;
-const link = caminhoArquivo[2];
-console.log(link);
-
-
-fs.readFile(link, 'utf-8', (erro, texto) => {
-    try {
-        if (erro) throw erro;
-        contaPalavras(texto);
-    } catch (erro) {
-      trataErros(erro);
-    } 
-});
-
-function contaPalavras(texto) { 
-    const paragrafos = extraiParagrafos(texto);
- const contagem = paragrafos.flatMap((paragrafo) => {
-        if (!paragrafo) return [];
-            return verificaPalavrasDuplicadas(paragrafo);
-        });
-    console.log(contagem);
+export function contaPalavras(texto) {
+  const paragrafos = extraiParagrafos(texto)
+  const contagem = paragrafos.flatMap((paragrafo) => {
+    if (!paragrafo) return [];
+    return verificaPalavrasDuplicadas(paragrafo);
+  })
+  return contagem;
 }
 
 function extraiParagrafos(texto) {
-   return texto.toLowerCase().split('\n');}
+  return texto.toLowerCase().split('\n');
+}
 
 function limpaPalavras(palavra) {
-    return palavra.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,'');
+  return palavra.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '');
 }
 
 function verificaPalavrasDuplicadas(texto) {
-    const listaPalavras = texto.split(' ');
-    const resultado = {};
-    listaPalavras.forEach(palavra => { 
-        if( palavra.length >=3){
-        const palavraLimpa = limpaPalavras(palavra);
-        resultado[palavraLimpa] = (resultado[palavraLimpa] || 0) + 1;
-        }
-    });
-    return resultado;
+  const listaPalavras = texto.split(' ');
+  const resultado = {};
+  listaPalavras.forEach(palavra => {
+    if (palavra.length >= 3) {
+      const palavraLimpa = limpaPalavras(palavra);
+      resultado[palavraLimpa] = (resultado[palavraLimpa] || 0) + 1
+    }
+  })
+  return resultado;
 }
-
-
