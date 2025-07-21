@@ -5,7 +5,7 @@ import { montaSaidaArquivo } from './helpers.js';
 
 const caminhoArquivo = process.argv;
 const link = caminhoArquivo[2];
-const endereco = caminhoArquivo[3];
+const endereco = caminhoArquivo[3]||'./';
 
 fs.readFile(link, 'utf-8', (erro, texto) => {
   try {
@@ -16,7 +16,6 @@ fs.readFile(link, 'utf-8', (erro, texto) => {
     trataErros(erro);
   }
 })
-
 async function criaESalvaArquivo(listaPalavras, endereco) {
   const arquivoNovo = `${endereco}/resultado.txt`;
   const textoPalavras = montaSaidaArquivo(listaPalavras);
